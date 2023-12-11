@@ -1,4 +1,5 @@
-const express = require ( "express");
+import express from "express";
+import errorHandler from "./middlewares/index.js"
 
 const app = express();
 
@@ -8,8 +9,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 
 
-const mockRouter= require("./routes/mocking")
-app.use("/",mockRouter)
+import mockRouter from "../src/routes/mocking.js";
+import productsRouter from "./routes/products.js"
+
+app.use("/api/mockingProducts",mockRouter)
+app.use("/api/products", productsRouter)
+app.use(errorHandler)
+
 
 
 app.listen(port, ()=>{

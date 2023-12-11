@@ -1,10 +1,16 @@
-const router=require("express").Router();
+import { Router } from "express";
+import { generateProducts } from "../../utils.js";
 
-router.get("/mocking", (req, res)=>{
-    res.send("ok")
-})
+const router= Router()
+
+router.get("/", (req, res)=>{
+    let result= [];
+    for(let i=0;i<50;i++){
+        result.push(generateProducts())
+    };
+    
+    res.send({status:"success", payload:result})
+  });
 
 
-
-
-module.exports=router;
+export default router;
