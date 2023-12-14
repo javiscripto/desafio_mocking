@@ -15,3 +15,21 @@ export const generateProducts = () => {
     cat: faker.commerce.department(),
   };
 };
+
+///hash bcrypt
+import bcrypt from "bcrypt";
+
+export const createHash=(password)=>{
+    return bcrypt.hashSync(password,bcrypt.genSaltSync(10))
+}
+export const isValidPass=(user, password)=>{
+   return bcrypt.compareSync(password,user.password)
+}
+//middleware que valida una sesion activa
+export const activeSession=(req, res, next)=>{
+  if(req.session.user){
+     return next()
+  }else{
+    return  res.redirect("/api/sessions/login")
+  }
+}
