@@ -45,6 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(addLoggerMiddleware);
+app.use(errorHandler);
 
 import initializePassport from "./config/passport.config.js";
 initializePassport()
@@ -56,7 +57,8 @@ import productRoute from "./server_routes/products.router.js";
 import cartRoute from "./server_routes/carts.router.js";
 
 import mockRouter from "../src/routes/mocking.js";
-import productsRouter from "./routes/products.js"
+import productsRouter from "./routes/products.js";
+import loggerRouter from "./routes/logger.js";
 
 
 //import messagesRoute from "./routes/messages.route.js";
@@ -65,11 +67,10 @@ import sessionRoute from "./server_routes/session.router.js";
 app.use("/", sessionRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
-app.use("/api/mockingProducts",mockRouter)
+app.use("/api/mockingProducts",mockRouter);
+app.use("/api/products", productsRouter);
+app.use("/loggerTest",loggerRouter)
 
-
-app.use("/api/products", productsRouter)
-app.use(errorHandler);
 
 
 

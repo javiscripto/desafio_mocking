@@ -1,4 +1,5 @@
 
+import { logger } from "../../../utils/logger.js";
 import { ticketModel } from "../models/ticket.model.js";
 
 
@@ -10,10 +11,10 @@ export class TicketMongo{
     createTicket=async(data)=>{
         try {
             let newTicket= await ticketModel.create(data)
-            console.log(`ticket ${newTicket._id} creado correctamente`);
+            logger.info(`ticket ${newTicket._id} creado correctamente`);
             return newTicket
         } catch (error) {
-            console.error(`error en db: ${error}`)
+            logger.error(`error en db: ${error}`)
         }
     };
 
@@ -29,7 +30,7 @@ export class TicketMongo{
                 return tickets
             };
         } catch (error) {
-            console.error(`error en db: ${error}`)
+            logger.error(`error en db: ${error}`)
         }
     }
 
@@ -40,7 +41,7 @@ export class TicketMongo{
             return ticket
 
         } catch (error) {
-            console.error(`error en db: ${error}`)
+            logger.error(`error en db: ${error}`)
         }
     }
 }

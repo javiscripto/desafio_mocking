@@ -1,4 +1,5 @@
 import productModel from "../models/product.model.js";
+import { logger } from "../../../utils/logger.js";
 
 class ProductsMOngo {
   constructor() {}
@@ -27,7 +28,7 @@ class ProductsMOngo {
       
       return [toPurchase, noComprados];
     } catch (error) {
-      console.error(`error: `, error);
+      logger.error(`error: `, error);
     }
   };
   
@@ -38,7 +39,7 @@ class ProductsMOngo {
       const products = await productModel.find();
       return products;
     } catch (error) {
-      console.error(`error al obtener productos:`, error);
+      logger.error(`error al obtener productos:`, error);
     }
   };
 
@@ -48,7 +49,7 @@ class ProductsMOngo {
       if (!product) return `producto ${productId} no encontrado`;
       return product;
     } catch (error) {
-      console.error(`error:`, error);
+      logger.error(`error:`, error);
     }
   };
 
@@ -57,7 +58,7 @@ class ProductsMOngo {
       const newProduct = await productModel.create(productData);
       return newProduct;
     } catch (error) {
-      console.error(`error:`, error);
+      logger.error(`error:`, error);
     }
   };
 
@@ -70,7 +71,7 @@ class ProductsMOngo {
       );
       return updatedProduct;
     } catch (error) {
-      console.error(`error :`, error);
+      logger.error(`error :`, error);
     }
   };
 
@@ -79,7 +80,7 @@ class ProductsMOngo {
       const deletedProduct = await productModel.findByIdAndRemove(productId);
       return deletedProduct;
     } catch (error) {
-      console.error("error", error);
+      logger.error("error", error);
     }
   };
 }

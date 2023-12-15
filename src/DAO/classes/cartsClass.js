@@ -1,4 +1,5 @@
 import { cartModel } from "../models/carts.model.js";
+import { logger } from "../../../utils/logger.js";
 
  class CartsMongo {
   constructor() {}
@@ -8,7 +9,7 @@ import { cartModel } from "../models/carts.model.js";
       const cart = await cartModel.create({ products: [] });
       return cart
     } catch (error) {
-      console.error("error al crear carrito", error);
+      logger.error("error al crear carrito", error);
     }
   };
 
@@ -17,7 +18,7 @@ import { cartModel } from "../models/carts.model.js";
       const carts = await cartModel.find().populate("products.item");
       return carts;
     } catch (error) {
-      console.error("error al obtener carritos: ", error);
+      logger.error("error al obtener carritos: ", error);
     }
   };
 
@@ -27,7 +28,7 @@ import { cartModel } from "../models/carts.model.js";
       
       return cart;
     } catch (error) {
-        console.error("error al obtener carrito: ", error)
+        logger.error("error al obtener carrito: ", error)
     }
   }
 
@@ -39,11 +40,11 @@ import { cartModel } from "../models/carts.model.js";
       const existingProduct = cart.products.find((prod) => prod.item.toString() === productId);
       if (existingProduct) {
         existingProduct.quantity += quantity;
-        console.log(`Se ha agregado la cantidad de ${quantity} item(s) al producto`);
+        logger.info(`Se ha agregado la cantidad de ${quantity} item(s) al producto`);
       } else {
         const newProduct = { item: productId, quantity: quantity }; // Corregido aquí, cambiado de product a item
         cart.products.push(newProduct);
-        console.log(`Se ha agregado el producto ${productId} al carrito`);
+        logger.info(`Se ha agregado el producto ${productId} al carrito`);
       }
   
       await cart.save();
@@ -51,7 +52,7 @@ import { cartModel } from "../models/carts.model.js";
       const populatedCart = await cartModel.findById(cartId).populate("products.item").lean();
       return populatedCart;
     } catch (error) {
-      console.error("Error:", error);
+      logger.error("Error:", error);
     }
   };
   
@@ -65,7 +66,7 @@ import { cartModel } from "../models/carts.model.js";
         const productToDeleteIndex = cart.products.findIndex((prod) => prod.item.toString() === productId);
   
         if (productToDeleteIndex === -1) {
-          console.log("Producto no encontrado en el carrito");
+          logger.info("Producto no encontrado en el carrito");
         } else {
           // Eliminar el producto del array de productos del carrito
           cart.products.splice(productToDeleteIndex, 1);
@@ -76,7 +77,7 @@ import { cartModel } from "../models/carts.model.js";
 
 
     } catch (error) {
-        console.error("error:", error)
+        logger.error("error:", error)
     }
   }
 

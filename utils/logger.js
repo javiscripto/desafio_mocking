@@ -15,5 +15,6 @@ export const logger=winston.createLogger({
 
 export const addLoggerMiddleware=(req, res, next)=>{
     req.logger=logger;
+    req.logger.http(`${req.method} en ${req.url}`)
     next();
 }

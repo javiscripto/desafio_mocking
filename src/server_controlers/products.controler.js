@@ -26,7 +26,7 @@ export const getAll=async(req, res)=>{
         let adminRole;
         user.role=="admin"?adminRole=true:adminRole=false
        
-        res.render('products', {
+        res.status(200).render('products', {
           dbProducts,
           hasPreviousPage,
           hasNextPage,
@@ -67,7 +67,7 @@ export const createProduct= async( req, res)=>{
             res.send("faltan datos")
         }
         const createdProduct= await productService.createProduct(newProduct)
-        res.json(createdProduct)
+        res.status(201).json(createdProduct)
 
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });
