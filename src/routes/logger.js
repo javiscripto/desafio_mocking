@@ -6,8 +6,13 @@ const router= Router();
 
 //realizar pruebas de los logs 
 router.get("/", (req, res)=>{
-    logger.info(`${req.method} en ${req.url}`)
-    res.send("test http logger")
+    logger.info("info")
+    logger.error("error")
+    logger.warn("warning")
+    logger.debug("debug")
+    logger.silly("message")
+    
+    res.send("test  logger")
 })
 
 
