@@ -24,7 +24,6 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl: config.MONGO_URL,
-      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 60 * 60 * 10, //
     }),
     secret: "clave",
@@ -58,6 +57,7 @@ import cartRoute from "./server_routes/carts.router.js";
 
 import mockRouter from "../src/routes/mocking.js";
 import productsRouter from "./routes/products.js";
+import ticketRouter from "../src/server_routes/ticket.router.js"
 import loggerRouter from "./routes/logger.js";
 
 
@@ -67,6 +67,7 @@ import sessionRoute from "./server_routes/session.router.js";
 app.use("/", sessionRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
+app.use("/api/tickets",ticketRouter)
 app.use("/api/mockingProducts",mockRouter);
 app.use("/api/products", productsRouter);
 app.use("/loggerTest",loggerRouter)
@@ -123,7 +124,7 @@ passport.deserializeUser(async(id, done)=>{
 ///////////////////////////////////  set mongoose conection
 
 mongoose
-  .connect(config.MONGO_URL, { useNewUrlParser: true })
+  .connect(config.MONGO_URL)
   .then(() => {
     logger.info("conectado a la base de datos");
   })

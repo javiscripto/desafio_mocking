@@ -17,12 +17,12 @@ const productionLogger = winston.createLogger({
 });
 
 const devLogger = winston.createLogger({
-  level: "silly",
+  level: "debug",
   format: winston.format.combine(
     winston.format.colorize(),
     winston.format.simple()
   ),
-  transports: [new winston.transports.Console()],
+  transports: [new winston.transports.Console(), new winston.transports.File({filename:"error.log",level:"error"})],
 });
 
 

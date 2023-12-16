@@ -4,7 +4,10 @@ import GitHubStrategy from "passport-github2";
 import { createHash, isValidPass } from "../../utils.js";
 import userModel from "../DAO/models/users.model.js";
 import {cartModel} from "../DAO/models/carts.model.js";
-import config from "../env_config/env_config.js"
+import config from "../env_config/env_config.js";
+import { logger } from "../../utils/logger.js";
+
+
 const localStrategy = Strategy;
 
 const initializePassport = () => {
@@ -16,11 +19,11 @@ const initializePassport = () => {
         try {
           let user = await userModel.findOne({ email: username });
           if (user) {
-            console.log("usuario ya registrado");
+           logger.info("usuario ya registrado");
             return done(null, false);
           } else {
             const cartUser= await cartModel.create({porducts:[]});
-            console.log(cartUser)
+           
             const newUser = {
               first_name: req.body.first_name,
               last_name: req.body.last_name,
@@ -41,11 +44,11 @@ const initializePassport = () => {
             saveUser = { ...saveUser, password: createHash(password) };
             
             let result = await userModel.create(saveUser);
-            console.log("usuario registrado con exito",saveUser);
+            logger.info("usuario registrado con exito",saveUser);
             return done(null, result);
           }
         } catch (error) {
-          console.log("error al obtener usuario en bd", error);
+          logger.error("error al obtener usuario en bd", error);
           return done("error al obtener usuario", error);
         }
       }
@@ -62,12 +65,12 @@ const initializePassport = () => {
           const user = await userModel.findOne({ email: username });
 
           if (!user) {
-            console.log(`el usuario no existe`);
+            logger.warn(`el usuario no existe`);
           }
           if (!isValidPass(user, password)) {
             return done(null, false);
           }
-          //console.log(user)
+          
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -134,7 +137,7 @@ const initializePassport = () => {
 
 
         } catch (error) {
-          console.error("error en la estrategia")
+          logger.error("error en la estrategia")
           return done(error);
         }
       }
