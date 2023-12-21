@@ -23,6 +23,7 @@ export const getAll=async(req, res)=>{
         const dbProducts = result.docs.map((product) => product.toObject()); // Convertir a objetos JSON
     
         const user= req.session.user;
+        console.log(user)
         let adminRole;
         user.role=="admin"?adminRole=true:adminRole=false
        

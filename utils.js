@@ -21,7 +21,10 @@ import bcrypt from "bcrypt";
 
 export const createHash=(password)=>{
     return bcrypt.hashSync(password,bcrypt.genSaltSync(10))
-}
+};
+
+
+///////////////////////////
 export const isValidPass=(user, password)=>{
    return bcrypt.compareSync(password,user.password)
 }
@@ -33,3 +36,37 @@ export const activeSession=(req, res, next)=>{
     return  res.redirect("/api/sessions/login")
   }
 }
+
+///send mail
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  service:"gmail",
+  secure:true,
+  auth:{
+    user:"javier.mecker94@gmail.com",
+    pass: "shnl hrzi wzeo pypb"
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+const mailOptions= {
+  from:"javier.mecker94@gmail.com",
+  to:"mdn.ftg@gmail.com",
+  subject:"esto no es un simulacro",
+  text:"hola mi amor"
+};
+export const sendMail=()=>{
+
+  transporter.sendMail(mailOptions,(error,info)=>{
+  if(error){
+    console.error(`error al enviar el correo`,error)
+  }else{
+    console.log(`correo enviado: `,info.response)
+  }
+})
+}
+
+

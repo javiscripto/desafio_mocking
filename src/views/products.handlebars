@@ -13,8 +13,11 @@
 
   <a class="nav-link" href="/logout">logout</a>
   <div class="user-cart nav-item">
-    <a class="nav-link" href="/api/carts/{{user.cart}}">ver el carrito</a>
+    <a class="nav-link" href="/api/carts/{{user._id}}">ver carrito(s)</a>
   </div>
+  <form action="/api/carts/{{user._id}}" method="post" class="user-cart nav-item">
+  <button type="submit">crear nuevo carrito</button>
+  </form>
   <div class="dropdown">
     <button
       class="btn btn-secondary dropdown-toggle"

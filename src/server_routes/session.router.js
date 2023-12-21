@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import initializePassport from "../config/passport.config.js";
 import userModel from "../DAO/models/users.model.js";
-import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut} from "../server_controlers/session.controler.js";
+import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut, forgotPassword, postForgotPassword, resetPassword, resetPasswordForm} from "../server_controlers/session.controler.js";
 
 
 
@@ -58,5 +58,10 @@ router.get("/api/sessions/githubcallback",passport.authenticate("github", {failu
 //logout
 router.get("/logout", logOut)
 
+//reestablecer la contraseña
+router.get("/api/sessions/ForgotPassword", forgotPassword);
+router.post("/api/sessions/ForgotPassword", postForgotPassword);
+router.get("/api/sessions/reset-password", resetPassword);
+router.get("/api/sessions/reset-password-form",resetPasswordForm)
 
 export default router;

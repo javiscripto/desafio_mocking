@@ -2,6 +2,7 @@ import CartsMongo from "../DAO/classes/cartsClass.js";
 import userModel from "../DAO/models/users.model.js";
 import { TicketMongo } from "../DAO/classes/ticketClass.js";
 import ProductsMOngo from "../DAO/classes/productsClass.js";
+import { logger } from "../../utils/logger.js";
 
 const cartService = new CartsMongo();
 const productService= new ProductsMOngo();
@@ -9,7 +10,9 @@ const productService= new ProductsMOngo();
 const ticketService= new TicketMongo();
 
 const createCart=async(req, res)=>{
-    const newCart= await cartService.createCart();
+    const uid = req.params.uid
+    console.log(uid)
+    const newCart= await cartService.createCart(uid);
     res.json({result:"success", payload:newCart})
 }
 
@@ -17,6 +20,13 @@ const createCart=async(req, res)=>{
 const getAll=async(req,res)=>{
     const carts= await cartService.getAll();
     res.json(carts)
+}
+
+const getUserCart= async(req, res)=>{
+    const userId= req.params.uid
+    const carts= await cartService.userCarts(userId);
+    console.log(carts)
+    res.send({payload:carts})
 }
 
 const getById=async(req, res)=>{
@@ -75,4 +85,4 @@ const purchase= async(req, res)=>{
     
 }
 
-export default{createCart,getAll,getById,addProduct,deleteProduct, purchase}
+export default{createCart,getAll,getById, getUserCart,addProduct,deleteProduct, purchase}

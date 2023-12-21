@@ -6,6 +6,8 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 import { addLoggerMiddleware , logger} from "../utils/logger.js";
 import errorHandler from "./middlewares/index.js"
+import initializePassport from "./config/passport.config.js";
+initializePassport()
 
 
 //seteo trabajo con rutas
@@ -46,8 +48,7 @@ app.use(passport.session());
 app.use(addLoggerMiddleware);
 app.use(errorHandler);
 
-import initializePassport from "./config/passport.config.js";
-initializePassport()
+
 //set public folder
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -58,7 +59,7 @@ import cartRoute from "./server_routes/carts.router.js";
 import mockRouter from "../src/routes/mocking.js";
 import productsRouter from "./routes/products.js";
 import ticketRouter from "../src/server_routes/ticket.router.js"
-import loggerRouter from "./routes/logger.js";
+import loggerRouter from "./routes/logger.js";//para realizar los test
 
 
 //import messagesRoute from "./routes/messages.route.js";
@@ -105,22 +106,6 @@ passport.deserializeUser(async(id, done)=>{
 
 
 
-// const adminAuthorization = authorize(['admin']);
-
-// const userAuthorization = authorize(['user']);
-
-// // Rutas protegidas con autorización
-
-// app.get('/admin',adminAuthorization,passport.authenticate("current"), (req, res) => {
-
-//  res.json({ message: 'Acceso permitido para administradores, ',user:req.user });
-
-// });
-
-// app.get('/user', passport.authenticate("current"), userAuthorization, (req, res) => {
-//     res.json({ message: 'Acceso permitido para usuarios',user:req.user  });
-//   });
-
 ///////////////////////////////////  set mongoose conection
 
 mongoose
@@ -131,6 +116,9 @@ mongoose
   .catch((error) => {
     logger.error("error al conectar ");
   });
+
+
+
 
 app.listen(port, () => {
   logger.info(`server running on port ${port}`);
