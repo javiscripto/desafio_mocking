@@ -2,7 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import initializePassport from "../config/passport.config.js";
 import userModel from "../DAO/models/users.model.js";
-import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut, forgotPassword, postForgotPassword, resetPassword, resetPasswordForm} from "../server_controlers/session.controler.js";
+import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut, forgotPassword, postForgotPassword, resetPassword, resetPasswordForm, getUserInfo, updatePassword} from "../server_controlers/session.controler.js";
+import { activeSession } from "../../utils.js";
 
 
 
@@ -53,15 +54,16 @@ router.get("/api/sessions/github",passport.authenticate("github",{scope:["user:e
 ///github callback
 router.get("/api/sessions/githubcallback",passport.authenticate("github", {failureRedirect:"/register"}) , gitHubCallback);
 //------------------------
-
+//este endpoint permite ver la info del usuario y enviará al front la opcion para cambiar el role a premium
+router.get("/api/sessions/userInfo", activeSession,getUserInfo)
 
 //logout
 router.get("/logout", logOut)
 
 //reestablecer la contraseña
-router.get("/api/sessions/ForgotPassword", forgotPassword);
-router.post("/api/sessions/ForgotPassword", postForgotPassword);
-router.get("/api/sessions/reset-password", resetPassword);
-router.get("/api/sessions/reset-password-form",resetPasswordForm)
-
+router.get("/api/sessions/ForgotPassword"  , forgotPassword);
+router.post("/api/sessions/ForgotPassword"  , postForgotPassword);
+router.get("/api/sessions/reset-password"  , resetPassword);
+router.get("/api/sessions/reset-password-form" , resetPasswordForm)
+router.put("/api/sessions/updatePassword", updatePassword)
 export default router;

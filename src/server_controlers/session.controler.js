@@ -59,6 +59,12 @@ export const gitHubCallback = (req, res) => {
   res.redirect("/api/products");
 };
 
+export const getUserInfo=(req, res)=>{
+  const user = req.session.user
+  res.render("userinfo",{user})
+}
+
+
 export const logOut = (req, res) => {
   req.session.destroy((err) => {
     if (!err) res.redirect("/api/sessions/login");
@@ -102,11 +108,12 @@ export const resetPassword = (req, res) => {
   // Verifico el token
   jwt.verify(token, "secret_key", (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: "Token inválido o expirado" });
+      logger.debug("token expirado o inválido")
+      return res.redirect("/api/sessions/ForgotPassword");
     }
 
     logger.debug("token validado")
-    // redirijo al usuario para cambiar la contraseña
+    // redirijo
     res.redirect(`/api/sessions/reset-password-form?email=${decoded.email}`);
   });
 };
@@ -114,4 +121,9 @@ export const resetPassword = (req, res) => {
 export const resetPasswordForm=(req, res)=>{
     const {email}=req.query;
     res.render("resetPassword",{email})
+};
+
+export const updatePassword=(req, res)=>{
+  const data= req.body
+  res.send(data)
 }

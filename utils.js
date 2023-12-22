@@ -30,11 +30,11 @@ export const isValidPass=(user, password)=>{
 }
 //middleware que valida una sesion activa
 export const activeSession=(req, res, next)=>{
-  if(req.session.user){
-     return next()
-  }else{
-    return  res.redirect("/api/sessions/login")
+  if (!req.isAuthenticated()) {
+    return  res.redirect("/api/sessions/login");
   }
+
+ next()
 }
 
 ///send mail
