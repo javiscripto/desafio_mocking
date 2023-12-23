@@ -68,6 +68,7 @@ const initializePassport = () => {
             logger.warn(`el usuario no existe`);
           }
           if (!isValidPass(user, password)) {
+            logger.warn("contraseña incorrecta")
             return done(null, false);
           }
           

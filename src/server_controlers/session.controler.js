@@ -52,7 +52,7 @@ export const postLogin = (req, res) => {
 };
 
 export const failLogin = (req, res) => {
-  res.send("algo fallo");
+  res.send("credenciales incorrectas");
 };
 
 //login with github
@@ -128,11 +128,13 @@ export const resetPasswordForm=(req, res)=>{
 };
 
 export const updatePassword=async(req, res)=>{
-  const {email, password}=req.body
-   logger.debug(email);
-  
-  logger.debug(password)
+  try {
+     const {email, password}=req.body
   const result= await userService.updatePassword(createHash(password),email);
-  logger.debug(result)
-  res.status(200).send("contraseña actualizada ")
+
+  res.status(200).send("ok")
+  } catch (error) {
+    res.status(500).send("ha ocurrido un error interno en el servidor")
+  }
+ 
 }
