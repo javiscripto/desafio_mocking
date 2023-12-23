@@ -1,7 +1,11 @@
 import nodemailer from "nodemailer";
 import { logger } from "../../utils/logger.js";
 import { generateResetToken } from "../config/resetToken.js";
-import jwt from "jsonwebtoken"
+import { createHash } from "../../utils.js";
+import jwt from "jsonwebtoken";
+import UserMongo from "../DAO/classes/userClass.js";
+
+const userService= new UserMongo()
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -123,7 +127,12 @@ export const resetPasswordForm=(req, res)=>{
     res.render("resetPassword",{email})
 };
 
-export const updatePassword=(req, res)=>{
-  const data= req.body
-  res.send(data)
+export const updatePassword=async(req, res)=>{
+  const {email, password}=req.body
+   logger.debug(email);
+  
+  logger.debug(password)
+  const result= await userService.updatePassword(createHash(password),email);
+  logger.debug(result)
+  res.status(200).send("contraseña actualizada ")
 }
