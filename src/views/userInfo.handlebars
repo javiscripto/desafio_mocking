@@ -8,7 +8,43 @@
     <p><strong>Rol:</strong>  {{user.role}}</p>
 </div>
 <div class="container-fluid">
-   <form action="#" method="post">
+   <form id="user-role-form" action="" method="">
     <button type="submit">cambiar a premium</button>
    </form>
 </div>
+
+<script>
+    const currentRole = "{{user.role}}";
+    const userEmail = "{{user.email}}";
+    let newUserRole;
+
+    const userRoleForm = document.getElementById("user-role-form");
+
+    userRoleForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        currentRole == "user" ? (newUserRole = "premium") : (newUserRole = "user");
+        console.log(newUserRole);
+
+        const requestBody = { role: newUserRole, email: userEmail };
+
+        try {
+            const response = await fetch('/api/sessions/updateRole', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                alert("rol actualizado");
+                window.location.reload()
+            } else {
+                console.error('Error al actualizar el usuario');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud fetch:', error);
+        }
+    });
+</script>

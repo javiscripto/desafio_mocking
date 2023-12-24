@@ -5,7 +5,7 @@ import { createHash } from "../../utils.js";
 import jwt from "jsonwebtoken";
 import UserMongo from "../DAO/classes/userClass.js";
 
-const userService= new UserMongo()
+const userService = new UserMongo();
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -62,12 +62,29 @@ export const gitHubCallback = (req, res) => {
   req.session.user = req.user;
   res.redirect("/api/products");
 };
+/////////////////////////////////////
+//get user info
+export const getUserInfo = (req, res) => {
+  const user = req.session.user;
+  res.render("userinfo", { user });
+};
 
-export const getUserInfo=(req, res)=>{
-  const user = req.session.user
-  res.render("userinfo",{user})
-}
+//update to premim/user role
 
+export const updateRole = async(req, res) => {
+  try {
+    const { role, email } = req.body;
+    logger.debug(role, email);
+    const result= await userService.updateRole(role, email);
+    logger.debug(result.role)
+    req.session.user=result;
+    res.send("rol actualizado correctamente");
+  } catch (error) {
+    res.status(500).send("ha ocurrido un error interno en el servidor");
+  }
+};
+
+//////////////////////////////
 
 export const logOut = (req, res) => {
   req.session.destroy((err) => {
@@ -104,37 +121,37 @@ export const postForgotPassword = (req, res) => {
   res.send(`hemos enviado un correo a ${email} para restablecer la contraseña`);
 };
 
-
-
 export const resetPassword = (req, res) => {
   const { token } = req.query;
 
   // Verifico el token
   jwt.verify(token, "secret_key", (err, decoded) => {
     if (err) {
-      logger.debug("token expirado o inválido")
+      logger.debug("token expirado o inválido");
       return res.redirect("/api/sessions/ForgotPassword");
     }
 
-    logger.debug("token validado")
+    logger.debug("token validado");
     // redirijo
     res.redirect(`/api/sessions/reset-password-form?email=${decoded.email}`);
   });
 };
 
-export const resetPasswordForm=(req, res)=>{
-    const {email}=req.query;
-    res.render("resetPassword",{email})
+export const resetPasswordForm = (req, res) => {
+  const { email } = req.query;
+  res.render("resetPassword", { email });
 };
 
-export const updatePassword=async(req, res)=>{
+export const updatePassword = async (req, res) => {
   try {
-     const {email, password}=req.body
-  const result= await userService.updatePassword(createHash(password),email);
+    const { email, password } = req.body;
+    const result = await userService.updatePassword(
+      createHash(password),
+      email
+    );
 
-  res.status(200).send("ok")
+    res.status(200).send("ok");
   } catch (error) {
-    res.status(500).send("ha ocurrido un error interno en el servidor")
+    res.status(500).send("ha ocurrido un error interno en el servidor");
   }
- 
-}
+};

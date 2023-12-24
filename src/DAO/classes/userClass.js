@@ -18,4 +18,24 @@ export default class UserMongo {
       throw error;
     }
   };
+
+  updateRole= async(role,email)=>{
+    try {
+      const user = await userModel.findOne({email: email});
+      if(!user){
+        logger.warn(`usuario no encontrado`);
+        return null;
+      }
+      user.role=role;
+      await user.save();
+      logger.debug(`rol actualizado`);return user;
+
+    } catch (error) {
+      logger.error("error en la base de datos", error);
+    }
+  }
+
+
+
+
 }
