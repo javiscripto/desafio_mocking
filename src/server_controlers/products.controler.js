@@ -1,3 +1,4 @@
+import { logger } from "../../utils/logger.js";
 import ProductsMOngo from "../DAO/classes/productsClass.js";
 import productModel from "../DAO/models/product.model.js";
 
@@ -23,9 +24,9 @@ export const getAll=async(req, res)=>{
         const dbProducts = result.docs.map((product) => product.toObject()); // Convertir a objetos JSON
     
         const user= req.session.user;
-        console.log(user)
+        
         let adminRole;
-        user.role=="admin"?adminRole=true:adminRole=false
+        user.role=="admin"||"premium"?adminRole=true:adminRole=false
        
         res.status(200).render('products', {
           dbProducts,
@@ -63,10 +64,12 @@ export const getById= async(req, res)=>{
 
 export const createProduct= async( req, res)=>{
     try {
-        const newProduct= req.body;
-        if(!newProduct.title||!newProduct.description||!newProduct.code||!newProduct.price||!newProduct.status||!newProduct.stock||!newProduct.cat){
+        const product= req.body;
+        if(!product.title||!product.description||!product.code||!product.price||!product.status||!product.stock||!product.cat){
             res.send("faltan datos")
-        }
+        };
+        
+        const newProduct= {...product, owner:req.session.user._id}
         const createdProduct= await productService.createProduct(newProduct)
         res.status(201).json(createdProduct)
 
@@ -100,9 +103,13 @@ export const updateProduct= async(req, res)=>{
 export const deleteProduct= async(req, res)=>{
     try {
         const pid= req.params.pid;
-
-        const deletedProduct= await productService.deleteProduct(pid);
-        res.json(deletedProduct)
+        const owner=req.session.user
+        
+        const result= await productService.deleteProduct(pid,owner);
+        if(!result){
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });
     }

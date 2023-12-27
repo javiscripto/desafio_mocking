@@ -75,10 +75,16 @@ class ProductsMOngo {
     }
   };
 
-  deleteProduct = async (productId) => {
+  deleteProduct = async (productId,owner) => {
     try {
-      const deletedProduct = await productModel.findByIdAndRemove(productId);
-      return deletedProduct;
+      const product = await productModel.findById(productId);
+      if(owner.role=="admin" || product.owner==owner._Id && owner.role=="premium"){
+        const deletedProduct = await productModel.findByIdAndDelete(productId);
+        return deletedProduct;
+        
+      };
+      return null;
+      
     } catch (error) {
       logger.error("error", error);
     }

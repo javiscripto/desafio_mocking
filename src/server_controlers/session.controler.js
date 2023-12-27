@@ -78,7 +78,7 @@ export const updateRole = async(req, res) => {
     const result= await userService.updateRole(role, email);
     logger.debug(result.role)
     req.session.user=result;
-    res.send("rol actualizado correctamente");
+    res.send("rol actualizado correctamente");//?
   } catch (error) {
     res.status(500).send("ha ocurrido un error interno en el servidor");
   }

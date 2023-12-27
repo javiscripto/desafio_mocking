@@ -8,7 +8,7 @@ const productShema= new mongoose.Schema({
     code:{type:String,max:30},
     price:{type:Number},
     status:{type:Boolean},
-    owner:{ type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    owner:{ type: String},
     stock:{type:Number},
     cat:{type:String,max:30}
 });

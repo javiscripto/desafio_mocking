@@ -22,7 +22,7 @@ passport.deserializeUser(async(id, done)=>{
 
 
 const router= Router();
-const adminAuthorization = authorize(['admin']);
+const adminAuthorization = authorize(['admin',"premium"]);
 
 
 //get all 
