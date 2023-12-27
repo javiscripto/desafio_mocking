@@ -109,7 +109,7 @@ export const deleteProduct= async(req, res)=>{
         if(!result){
             return res.status(401).json({ message: "Unauthorized" });
         }
-        
+        res.status(200).json({status:"success", message: "producto eliminado"});
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });
     }

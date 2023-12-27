@@ -25,7 +25,7 @@ const getAll=async(req,res)=>{
 const getUserCart= async(req, res)=>{
     const userId= req.params.uid
     const carts= await cartService.userCarts(userId);
-    console.log(carts)
+    
     res.send({payload:carts})
 }
 

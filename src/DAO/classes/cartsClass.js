@@ -1,6 +1,7 @@
 import { cartModel } from "../models/carts.model.js";
 import userModel from "../models/users.model.js";
 import { logger } from "../../../utils/logger.js";
+import productModel from "../models/product.model.js";
 
 class CartsMongo {
   constructor() {}
@@ -62,6 +63,18 @@ class CartsMongo {
 
   addProduct = async (cartId, productId, quantity) => {
     try {
+
+      //validacion de owner 
+      const user = userModel.findOne({cart:cartId});
+      const product= productModel.findOne({_id:productId});
+
+      if(user.role!=="admin" && product.owner==user.id){
+        return "no puedes agregar este producto a tu carrito"
+      };
+      //fin validacion
+
+
+
       const cart = await cartModel.findById(cartId);
       if (!cart) return `El carrito con id ${cartId} no existe`;
 
