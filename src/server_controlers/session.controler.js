@@ -4,6 +4,7 @@ import { generateResetToken } from "../config/resetToken.js";
 import { createHash } from "../../utils.js";
 import jwt from "jsonwebtoken";
 import UserMongo from "../DAO/classes/userClass.js";
+import env from "../env_config/env_config.js";
 
 const userService = new UserMongo();
 
@@ -12,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
   auth: {
     user: "javiermanque.fotos@gmail.com",
-    pass: "eyef veis hqww lfrp",
+    pass: env.MAILER_PASS,
   },
   tls: {
     // do not fail on invalid certs
@@ -125,7 +126,7 @@ export const resetPassword = (req, res) => {
   const { token } = req.query;
 
   // Verifico el token
-  jwt.verify(token, "secret_key", (err, decoded) => {
+  jwt.verify(token, env.JWT_SECRET, (err, decoded) => {
     if (err) {
       logger.debug("token expirado o inválido");
       return res.redirect("/api/sessions/ForgotPassword");

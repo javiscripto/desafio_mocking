@@ -11,7 +11,7 @@ const ticketService= new TicketMongo();
 
 const createCart=async(req, res)=>{
     const uid = req.params.uid
-    console.log(uid)
+    
     const newCart= await cartService.createCart(uid);
     res.json({result:"success", payload:newCart})
 }
