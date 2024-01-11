@@ -27,8 +27,8 @@ export const getAll=async(req, res)=>{
         
         let adminRole;
         user.role=="admin"||"premium"?adminRole=true:adminRole=false
-       
-        res.status(200).render('products', {
+        if (process.env.NODE_ENV !== "test"){
+            res.status(200).render('products', {
           dbProducts,
           hasPreviousPage,
           hasNextPage,
@@ -39,6 +39,10 @@ export const getAll=async(req, res)=>{
           user,
           adminRole
         })
+        }else{
+            res.send({status:success, payload: dbProducts})
+        }
+        
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });
     }

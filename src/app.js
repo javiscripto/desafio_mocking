@@ -123,3 +123,4 @@ mongoose
 app.listen(port, () => {
   logger.info(`server running on port ${port}`);
 });
+export default app

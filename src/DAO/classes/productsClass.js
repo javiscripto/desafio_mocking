@@ -11,8 +11,6 @@ class ProductsMOngo {
   
       for (const prod of products) {
         const prodDb = await productModel.findById(prod.item._id).lean();
-        // console.log(prodDb._id, prod.item._id);
-        // console.log(prodDb.stock, prod.quantity);
   
         if (prodDb.stock >= prod.quantity) {
           toPurchase.push(prod);

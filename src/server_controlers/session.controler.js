@@ -31,7 +31,7 @@ export const postRegister = (req, res) => {
 };
 
 export const failRegister = (req, res) => {
-  console.log(`falla en el registro`);
+  logger.error("error al regisrar usuario")
   res.send({ error: "fallo el registro" });
 };
 

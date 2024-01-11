@@ -30,8 +30,9 @@ const getUserCart= async(req, res)=>{
 }
 
 const getById=async(req, res)=>{
-    const cid = req.params.cid
-    const cart = await cartService.getById(cid);
+    //const cid = req.params.cid
+    const {cartId}= req.query
+    const cart = await cartService.getById(cartId);
     
     const products= cart.products
     //

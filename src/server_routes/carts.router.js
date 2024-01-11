@@ -28,7 +28,7 @@ passport.deserializeUser(async(id, done)=>{
 const userAuthorization = authorize(['user']);
 
 //create Cart
-router.post("/:uid",cartControler.createCart)
+router.post("/:uid",cartControler.createCart);
 
 //////////////////////////////
 //crear una ruta de prueba que obtenga los carritos de un usuario
@@ -38,8 +38,8 @@ router.get("/:uid", cartControler.getUserCart)
 //get All
 router.get("/",cartControler.getAll);
 
-//get BY id
-router.get("/:cid",cartControler.getById);
+//get BY id (el id del carrito se recibe por req.query )
+router.get("/",cartControler.getById);
 
 //add Product 
 router.post("/:cid/products/:pid",userAuthorization,cartControler.addProduct);
