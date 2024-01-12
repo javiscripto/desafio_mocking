@@ -71,15 +71,14 @@ export const createProduct = async (req, res) => {
         res.status(400).send("faltan datos");
       }
       let ownerId;
-      //process.env.NODE_ENV=="test"?ownerId="idDEprueba":ownerId= req.session.user._id;
+      if(process.env.NODE_ENV!=="test"){
+        ownerId= req.session.user._id;
+      }else{
+        ownerId="idDelOwner"
+      };
       const newProduct = { ...product, owner: ownerId };
       const createdProduct = await productService.createProduct(newProduct);
       res.status(200).json(createdProduct);
-   
-
-
-
-
   } catch (error) {
     res.status(500).json({ result: "error", message: error.message });
     logger.error("error interno: ", error)

@@ -78,13 +78,32 @@ describe("test /api/products routes", () => {
     }
   })
 
+  it("debería poder crear un producto en la base de datos", async()=>{
+    try {
+        let mockProductPost = {
+            title: "productoPrueba",
+            description: "este es un producto de prueba",
+            code: "a123",
+            price: 1000,
+            status: true,
+            stock: 1,
+            cat: "producto",
+          };
+
+        const response= await requester.post("/api/products")
+        .send(mockProductPost)
+        .set("Content-Type", "application/json");
+
+        expect(response.status).equal(200);
+        expect(response.body).to.be.an("object");
+
+
+    } catch (error) {
+        console.error("ha ocurrido un error al ejecutar la prueba:", error)
+    }
+  })
 
 
 
 
-  describe("PUT method", async () => {});
-
-  describe("DELETE method", async () => {
-
-  });
 });
