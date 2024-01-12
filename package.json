@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "product-test":"mocha test/products.test.js --timeout 30000 --exit",
+    "prod-test":"mocha test/prod.test.js --timeout 10000 --exit",
     "cart-test":"mocha test/cart.test.js --timeout 20000 --exit",
     "sessions-test":"mocha test/session.test.js --timeout 20000 --exit"
   },
