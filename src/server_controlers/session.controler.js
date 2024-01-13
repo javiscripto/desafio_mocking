@@ -27,7 +27,7 @@ export const getRegister = (req, res) => {
 };
 
 export const postRegister = (req, res) => {
-  res.send({ status: "success", message: "usuario registrado" });
+  res.status(200).send({ status: "success", message: "usuario registrado" });
 };
 
 export const failRegister = (req, res) => {
@@ -49,10 +49,11 @@ export const postLogin = (req, res) => {
   //const user= req.user;
   req.session.user = req.user;
 
-  res.redirect("/api/products");
+  res.status(302).redirect("/api/products");
 };
 
 export const failLogin = (req, res) => {
+  logger.debug("falló el login")
   res.send("credenciales incorrectas");
 };
 

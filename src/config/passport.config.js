@@ -7,7 +7,7 @@ import {cartModel} from "../DAO/models/carts.model.js";
 import config from "../env_config/env_config.js";
 import { logger } from "../../utils/logger.js";
 
-
+ 
 const localStrategy = Strategy;
 
 const initializePassport = () => {
@@ -29,7 +29,7 @@ const initializePassport = () => {
               last_name: req.body.last_name,
               email: req.body.email,
               age: req.body.age,
-              cart: cartUser._id
+              carts: cartUser._id
             };
             
             let saveUser;

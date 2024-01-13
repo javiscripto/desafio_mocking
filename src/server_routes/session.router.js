@@ -54,7 +54,7 @@ router.get("/api/sessions/github",passport.authenticate("github",{scope:["user:e
 ///github callback
 router.get("/api/sessions/githubcallback",passport.authenticate("github", {failureRedirect:"/register"}) , gitHubCallback);
 //------------------------
-//este endpoint permite ver la info del usuario y enviará al front la opcion para cambiar el role a premium
+//este endpoint permite ver la info del usuario y enviará a la vista la opcion para cambiar el role a premium
 router.get("/api/sessions/userInfo", activeSession,getUserInfo);
 router.put("/api/sessions/updateRole", updateRole)
 //------------------------------------------------------
