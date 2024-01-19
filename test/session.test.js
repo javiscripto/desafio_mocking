@@ -38,14 +38,14 @@ describe("test api/sessions/ routes", () => {
     expect(response.status).equal(200);
     expect(response.body).to.be.an("object");
   });
-  it("al ingresar un campo invalido debe devolver un codigo 401", async()=>{
+  it("al ingresar un campo invalido debe redireccionar a api/sessions/faillogin y devolver un codigo de redireccion 302", async()=>{
     const invalidCredentials= {email:mockUser.email, password:"contraseñaFalsa"};
 
     const response= await requester.post("/api/sessions/login")
     .send(invalidCredentials)
     .set("Content-Type","application/json");
-    console.log(response.statusCode)
-  expect(response.statusCode).equal(401)
+    
+  expect(response.statusCode).equal(302)
   });
 
   it("deberia poder logear a un usuario correctamente", async () => {
