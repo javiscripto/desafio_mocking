@@ -8,7 +8,15 @@
     <p><strong>Rol:</strong>  {{user.role}}</p>
 </div>
 <div class="container-fluid">
+    <p>para <strong> acceder a premium</strong> debes subir los diguientes archivos:</p>
+   
    <form id="user-role-form" action="" method="">
+    <label for="identificacion">identificacion *</label>
+    <input type="file" name="identificacion" id="identificacion">
+    <label for="domicilio">domicilio *</label>
+    <input type="file" name="domicilio" id="domicilio">
+    <label for="estado-cuenta">estado de cuenta *</label>
+    <input type="file" name="estado-cuenta" id="estado-cuenta">
     <button type="submit">actualizar rol</button>
    </form>
 </div>

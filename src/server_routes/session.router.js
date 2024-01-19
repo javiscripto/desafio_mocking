@@ -45,7 +45,7 @@ router.get("/api/sessions/login", getLogin);
 
 router.post("/api/sessions/login", passport.authenticate("login", { failureRedirect: "/faillogin" }), postLogin);
 
-router.get("/faillogin", failLogin)
+router.get("/api/sessions/faillogin", failLogin)
 
 
 
@@ -66,5 +66,7 @@ router.get("/api/sessions/ForgotPassword"  , forgotPassword);
 router.post("/api/sessions/ForgotPassword"  , postForgotPassword);
 router.get("/api/sessions/reset-password"  , resetPassword);
 router.get("/api/sessions/reset-password-form" , resetPasswordForm)
-router.put("/api/sessions/updatePassword", updatePassword)
+router.put("/api/sessions/updatePassword", updatePassword);
+
+
 export default router;

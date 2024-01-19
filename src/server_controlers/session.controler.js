@@ -5,6 +5,7 @@ import { createHash } from "../../utils.js";
 import jwt from "jsonwebtoken";
 import UserMongo from "../DAO/classes/userClass.js";
 import env from "../env_config/env_config.js";
+import userModel from "../DAO/models/users.model.js";
 
 const userService = new UserMongo();
 
@@ -43,7 +44,7 @@ export const getLogin = (req, res) => {
 export const postLogin = (req, res) => {
   if (!req.user)
     return res
-      .status(400)
+      .status(401)
       .send({ status: "error", error: "credencial invalida" });
 
   //const user= req.user;
@@ -54,7 +55,7 @@ export const postLogin = (req, res) => {
 
 export const failLogin = (req, res) => {
   logger.debug("falló el login")
-  res.send("credenciales incorrectas");
+  res.status(401).send("credenciales incorrectas");
 };
 
 //login with github
@@ -88,12 +89,24 @@ export const updateRole = async(req, res) => {
 
 //////////////////////////////
 
-export const logOut = (req, res) => {
-  req.session.destroy((err) => {
-    if (!err) res.redirect("/api/sessions/login");
-    else res.send({ status: `logout error`, body: err });
-  });
+export const logOut = async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      // Actualizar la propiedad last_Connection al cerrar sesión
+      const user= await userModel.findById(req.user._id)
+      user.last_Conection=new Date();
+      await user.save()
+    }
+
+    req.session.destroy((err) => {
+      if (!err) res.redirect("/api/sessions/login");
+      else res.send({ status: `logout error`, body: err });
+    });
+  } catch (error) {
+    res.status(500).send({ status: 'logout error', body: error.message });
+  }
 };
+
 ////////////////////////////////////////////////////////restablecer la contraseña
 export const forgotPassword = (req, res) => {
   res.render("forgotPasword");

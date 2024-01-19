@@ -55,6 +55,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //import routes
 import productRoute from "./server_routes/products.router.js";
 import cartRoute from "./server_routes/carts.router.js";
+import usersRouter from "./server_routes/usersRouter.js";
 
 import mockRouter from "../src/routes/mocking.js";
 import productsRouter from "./routes/products.js";
@@ -66,6 +67,7 @@ import loggerRouter from "./routes/logger.js";//para realizar los test
 import sessionRoute from "./server_routes/session.router.js";
 
 app.use("/", sessionRoute);
+app.use("/api/users", usersRouter)
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/tickets",ticketRouter)

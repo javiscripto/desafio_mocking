@@ -35,7 +35,22 @@ export default class UserMongo {
     }
   }
 
+  validateDocuments= async (userId)=>{
+    try {
+      const user = await userModel.findById(userId);
 
+      if(!user||user.documents.length!==3)return false;
+
+     return true;
+      
+
+
+    } catch (error) {
+      logger.error("ha ocurrido un error en la db al realizar la consulta");
+      throw error;
+    }
+    
+  }
 
 
 }

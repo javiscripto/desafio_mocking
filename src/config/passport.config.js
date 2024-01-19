@@ -71,7 +71,9 @@ const initializePassport = () => {
             logger.warn("contraseña incorrecta")
             return done(null, false);
           }
-          
+          user.last_Conection = new Date()
+          //logger.debug(user)
+          await user.save();
           return done(null, user);
         } catch (error) {
           return done(error);

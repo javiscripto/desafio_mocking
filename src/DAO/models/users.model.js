@@ -9,7 +9,14 @@ const userSchema = new mongoose.Schema({
     age: { type: Number },
     password: { type: String  },
     carts:[{type: mongoose.Schema.Types.ObjectId, ref:"carts"}],
-    role: { type: String }
+    role: { type: String },
+    documents:[
+        {
+            name:{type: String},
+            reference:{type: String}
+        }
+    ],
+    last_Conection:{type:Date}
 });
 
 const userModel = mongoose.model(userCollection, userSchema);
