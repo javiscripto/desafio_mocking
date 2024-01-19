@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "prod-test":"mocha test/prod.test.js --timeout 10000 --exit",
-    "cart-test":"mocha test/cart.test.js --timeout 20000 --exit",
-    "session-test":"mocha test/session.test.js --timeout 20000 --exit"
+    "prod-test": "mocha test/prod.test.js --timeout 10000 --exit",
+    "cart-test": "mocha test/cart.test.js --timeout 20000 --exit",
+    "session-test": "mocha test/session.test.js --timeout 20000 --exit"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "mongoose-paginate-v2": "^1.7.4",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.7",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",

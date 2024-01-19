@@ -23,7 +23,9 @@ describe("test /api/products routes", () => {
         cat: "producto",
       };
 
-
+      after(async()=>{
+        await productModel.findOneAndDelete({title:"productoPrueba"})
+      })
  
     it("deberia devolver una lista con todos los productos", async () => {
       return new Promise(async (resolve, reject) => {
@@ -33,15 +35,12 @@ describe("test /api/products routes", () => {
   
           const productDB = await productModel.create(mockProduct);
   
-          // Realizar la solicitud GET
           const response = await requester.get("/api/products");
   
-          // Verificar que la respuesta sea un array
           expect(response.body).to.be.an("array");
-          // Eliminar el producto creado para limpiar la base de datos
-          await productModel.findByIdAndDelete(productDB._id);
+          
   
-          resolve(); // Marcar la promesa como resuelta
+          resolve(); 
         } catch (error) {
           console.error("Ha ocurrido un error al ejecutar la prueba: ", error);
           reject(error); // Marcar la promesa como rechazada si hay un error
@@ -57,7 +56,6 @@ describe("test /api/products routes", () => {
         const response = await requester.get(`/api/products/${productDB._id}`);
         expect(response.body).to.be.an("object");
         
-        await productModel.findByIdAndDelete(productDB._id);
     } catch (error) {
         console.error("Ha ocurrido un error al ejecutar la prueba: ", error);
 
@@ -70,7 +68,6 @@ describe("test /api/products routes", () => {
         const response= await requester.delete(`/api/products/${productDB._id}`);
 
         expect(response.status).equal(200);
-        await productModel.findByIdAndDelete(productDB._id);
 
     } catch (error) {
         console.error("Ha ocurrido un error al ejecutar la prueba: ", error);
