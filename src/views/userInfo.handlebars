@@ -12,11 +12,11 @@
    
    <form id="user-role-form" action="" method="">
     <label for="identificacion">identificacion *</label>
-    <input type="file" name="identificacion" id="identificacion">
+    <input type="file" name="identificacion" id="identificacion" required>
     <label for="domicilio">domicilio *</label>
-    <input type="file" name="domicilio" id="domicilio">
+    <input type="file" name="domicilio" id="domicilio" required>
     <label for="estado-cuenta">estado de cuenta *</label>
-    <input type="file" name="estado-cuenta" id="estado-cuenta">
+    <input type="file" name="estado-cuenta" id="estado-cuenta" required>
     <button type="submit">actualizar rol</button>
    </form>
 </div>
@@ -31,28 +31,38 @@
     userRoleForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        currentRole == "user" ? (newUserRole = "premium") : (newUserRole = "user");
-        console.log(newUserRole);
+        const identificacionFile = document.getElementById("identificacion").files[0];
+        const domicilioFile = document.getElementById("domicilio").files[0];
+        const estadoCuentaFile = document.getElementById("estado-cuenta").files[0];
 
-        const requestBody = { role: newUserRole, email: userEmail };
+        if (identificacionFile && domicilioFile && estadoCuentaFile) {
+            currentRole == "user" ? (newUserRole = "premium") : (newUserRole = "user");
 
-        try {
-            const response = await fetch('/api/sessions/updateRole', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-            });
+            const formData = new FormData();
+            formData.append("role", newUserRole);
+            formData.append("email", userEmail);
+            formData.append("identificacion", identificacionFile);
+            formData.append("domicilio", domicilioFile);
+            formData.append("estado-cuenta", estadoCuentaFile);
 
-            if (response.ok) {
-                alert("rol actualizado");
-                window.location.reload()
-            } else {
-                console.error('Error al actualizar el usuario');
+            try {
+                const response = await fetch('/api/sessions/updateRole', {
+                    method: 'PUT',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert("rol actualizado");
+                    window.location.reload();
+                } else {
+                    console.error('Error al actualizar el usuario');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud fetch:', error);
             }
-        } catch (error) {
-            console.error('Error en la solicitud fetch:', error);
+        } else {
+            alert(" todos los archivos son requeridos");
         }
     });
 </script>
+

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+
 import { logger } from "../../utils/logger.js";
 import { generateResetToken } from "../config/resetToken.js";
 import { createHash } from "../../utils.js";
@@ -73,15 +74,24 @@ export const getUserInfo = (req, res) => {
 };
 
 //update to premim/user role
+///////////////////////////////////////////
+
 
 export const updateRole = async(req, res) => {
   try {
     const { role, email } = req.body;
-    logger.debug(role, email);
-    const result= await userService.updateRole(role, email);
-    logger.debug(result.role)
+    const data = await req.files;
+    console.log(data)
+  
+    
+    
+    
+
+   
+    const result= await userService.updateRole(role, email,data);
+    
     req.session.user=result;
-    res.send("rol actualizado correctamente");//?
+    res.status(200).send("rol actualizado correctamente");//?
   } catch (error) {
     res.status(500).send("ha ocurrido un error interno en el servidor");
   }

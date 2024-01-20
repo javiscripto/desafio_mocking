@@ -19,38 +19,43 @@ export default class UserMongo {
     }
   };
 
-  updateRole= async(role,email)=>{
+  updateRole = async (role, email, data) => {
     try {
-      const user = await userModel.findOne({email: email});
-      if(!user){
+      console.log(email)
+      const user = await userModel.findOne({ email: email });
+      if (!user) {
         logger.warn(`usuario no encontrado`);
         return null;
       }
-      user.role=role;
-      await user.save();
-      logger.debug(`rol actualizado`);return user;
+      user.role = role;
+      // iterar sobre el objeto data
+      const nameFields = ["identificacion", "domicilio", "estado-cuenta"];
 
+      for (let i = 0; i < nameFields.length; i++) {
+        const path= data[nameFields[i]][0].path
+        const document={name:nameFields[i],reference:path}
+        user.documents.push(document)
+       
+      }
+
+      await user.save();
+      logger.debug(`rol actualizado`);
+      return user;
     } catch (error) {
       logger.error("error en la base de datos", error);
     }
-  }
+  };
 
-  validateDocuments= async (userId)=>{
+  validateDocuments = async (userId) => {
     try {
       const user = await userModel.findById(userId);
 
-      if(!user||user.documents.length!==3)return false;
+      if (!user || user.documents.length !== 3) return false;
 
-     return true;
-      
-
-
+      return true;
     } catch (error) {
       logger.error("ha ocurrido un error en la db al realizar la consulta");
       throw error;
     }
-    
-  }
-
-
+  };
 }
