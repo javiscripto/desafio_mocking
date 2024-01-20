@@ -70,7 +70,9 @@ export const gitHubCallback = (req, res) => {
 //get user info
 export const getUserInfo = (req, res) => {
   const user = req.session.user;
-  res.render("userinfo", { user });
+  let userRole;
+  user.role==="premium"?userRole=false:userRole=true;
+  res.render("userinfo", { user, userRole });
 };
 
 //update to premim/user role

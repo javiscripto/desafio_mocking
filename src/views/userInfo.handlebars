@@ -7,6 +7,7 @@
     <p><strong>Email:</strong> {{user.email}}</p>
     <p><strong>Rol:</strong>  {{user.role}}</p>
 </div>
+{{#if userRole}}
 <div class="container-fluid">
     <p>para <strong> acceder a premium</strong> debes subir los diguientes archivos:</p>
    
@@ -20,6 +21,7 @@
     <button type="submit">actualizar rol</button>
    </form>
 </div>
+{{/if}}
 
 <script>
     const currentRole = "{{user.role}}";
