@@ -1,70 +1,70 @@
 <div class="container-fluid bg-dark" style="color:white">
-    <h1 >informacion del usuario </h1>
+  <h1>informacion del usuario </h1>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid profile-container">
+  <div>
     <p><strong>Nombre:</strong> {{user.first_name}} {{user.last_name}}</p>
     <p><strong>Email:</strong> {{user.email}}</p>
-    <p><strong>Rol:</strong>  {{user.role}}</p>
-</div>
-{{#if userRole}}
-<div class="container-fluid">
-    <p>para <strong> acceder a premium</strong> debes subir los diguientes archivos:</p>
+    <p><strong>Rol:</strong> {{user.role}}</p>
+    
+    <form id="photoForm" action="" method="post">
+        <label for="profilePhoto">subir una foto</label>
+        <input type="file" name="profilePhoto">
+        <button type="submit">subir</button>
+    </form>
+
+  </div>
+
+    
+  <div class="profile_photo">
    
-   <form id="user-role-form" action="" method="">
-    <label for="identificacion">identificacion *</label>
-    <input type="file" name="identificacion" id="identificacion" required>
-    <label for="domicilio">domicilio *</label>
-    <input type="file" name="domicilio" id="domicilio" required>
-    <label for="estado-cuenta">estado de cuenta *</label>
-    <input type="file" name="estado-cuenta" id="estado-cuenta" required>
-    <button type="submit">actualizar rol</button>
-   </form>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="currentColor"
+      class="bi bi-camera"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"
+      />
+      <path
+        d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
+      />
+    </svg>
+
+    <div class="uploadPhoto">
+        <form action="#" method="post">
+            <input type="file" name="profilePhoto" id="">
+            <button type="submit">subir</button>
+        </form>
+    </div>
+
+
+  </div>
+
 </div>
-{{/if}}
+
+<a href="/api/users/{{user._id}}/documents">subir documentos</a>
 
 <script>
-    const currentRole = "{{user.role}}";
-    const userEmail = "{{user.email}}";
-    let newUserRole;
-
-    const userRoleForm = document.getElementById("user-role-form");
-
-    userRoleForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const identificacionFile = document.getElementById("identificacion").files[0];
-        const domicilioFile = document.getElementById("domicilio").files[0];
-        const estadoCuentaFile = document.getElementById("estado-cuenta").files[0];
-
-        if (identificacionFile && domicilioFile && estadoCuentaFile) {
-            currentRole == "user" ? (newUserRole = "premium") : (newUserRole = "user");
-
-            const formData = new FormData();
-            formData.append("role", newUserRole);
-            formData.append("email", userEmail);
-            formData.append("identificacion", identificacionFile);
-            formData.append("domicilio", domicilioFile);
-            formData.append("estado-cuenta", estadoCuentaFile);
-
-            try {
-                const response = await fetch('/api/sessions/updateRole', {
-                    method: 'PUT',
-                    body: formData,
-                });
-
-                if (response.ok) {
-                    alert("rol actualizado");
-                    window.location.reload();
-                } else {
-                    console.error('Error al actualizar el usuario');
-                }
-            } catch (error) {
-                console.error('Error en la solicitud fetch:', error);
-            }
-        } else {
-            alert(" todos los archivos son requeridos");
-        }
-    });
+  const currentRole = "{{user.role}}"; const userEmail = "{{user.email}}"; let
+  newUserRole; const userRoleForm = document.getElementById("user-role-form");
+  userRoleForm.addEventListener("submit", async (e) => { e.preventDefault();
+  const identificacionFile = document.getElementById("identificacion").files[0];
+  const domicilioFile = document.getElementById("domicilio").files[0]; const
+  estadoCuentaFile = document.getElementById("estado-cuenta").files[0]; if
+  (identificacionFile && domicilioFile && estadoCuentaFile) { currentRole ==
+  "user" ? (newUserRole = "premium") : (newUserRole = "user"); const formData =
+  new FormData(); formData.append("role", newUserRole); formData.append("email",
+  userEmail); formData.append("identificacion", identificacionFile);
+  formData.append("domicilio", domicilioFile); formData.append("estado-cuenta",
+  estadoCuentaFile); try { const response = await
+  fetch('/api/sessions/updateRole', { method: 'PUT', body: formData, }); if
+  (response.ok) { alert("rol actualizado"); window.location.reload(); } else {
+  console.error('Error al actualizar el usuario'); } } catch (error) {
+  console.error('Error en la solicitud fetch:', error); } } else { alert(" todos
+  los archivos son requeridos"); } });
 </script>
-

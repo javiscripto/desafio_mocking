@@ -67,13 +67,6 @@ export const gitHubCallback = (req, res) => {
   res.redirect("/api/products");
 };
 /////////////////////////////////////
-//get user info
-export const getUserInfo = (req, res) => {
-  const user = req.session.user;
-  let userRole;
-  user.role==="premium"?userRole=false:userRole=true;
-  res.render("userinfo", { user, userRole });
-};
 
 //update to premim/user role
 ///////////////////////////////////////////
@@ -83,13 +76,8 @@ export const updateRole = async(req, res) => {
   try {
     const { role, email } = req.body;
     const data = await req.files;
-    console.log(data)
-  
-    
-    
-    
 
-   
+    
     const result= await userService.updateRole(role, email,data);
     
     req.session.user=result;

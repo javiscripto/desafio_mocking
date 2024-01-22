@@ -35,7 +35,7 @@ app.use(
       name: "cookiename",
       secure: false,
       httpOnly: true,
-      maxAge: 1000 * 60 * 10,
+      maxAge: 1000 * 60 * 20,
     },
   })
 );
@@ -81,7 +81,7 @@ app.use("/loggerTest",loggerRouter)
 //app.use("/", messagesRoute)
 
 //handlebars
-import handlebars from "express-handlebars";
+
 import { engine } from "express-handlebars";
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");

@@ -3,7 +3,7 @@ import passport from "passport";
 import multer from "multer"
 import initializePassport from "../config/passport.config.js";
 import userModel from "../DAO/models/users.model.js";
-import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut, forgotPassword, postForgotPassword, resetPassword, resetPasswordForm, getUserInfo, updatePassword, updateRole} from "../server_controlers/session.controler.js";
+import {getRegister,postRegister,failRegister,getLogin,postLogin, failLogin, githubLogin, gitHubCallback, logOut, forgotPassword, postForgotPassword, resetPassword, resetPasswordForm, updatePassword, updateRole} from "../server_controlers/session.controler.js";
 import { activeSession } from "../../utils.js";
 
 
@@ -68,8 +68,8 @@ router.get("/api/sessions/github",passport.authenticate("github",{scope:["user:e
 router.get("/api/sessions/githubcallback",passport.authenticate("github", {failureRedirect:"/register"}) , gitHubCallback);
 //------------------------
 //este endpoint permite ver la info del usuario y enviará a la vista la opcion para cambiar el role a premium
-router.get("/api/sessions/userInfo", activeSession,getUserInfo);
-router.put("/api/sessions/updateRole", upload.fields([{name:"identificacion"},{name:"domicilio"},{name:"estado-cuenta"}]), updateRole)
+
+
 //------------------------------------------------------
 //logout
 router.get("/logout", logOut)

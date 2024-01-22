@@ -19,32 +19,43 @@ export default class UserMongo {
     }
   };
 
-  updateRole = async (role, email, data) => {
+  uploadDocuments = async (userId, data) => {
     try {
-      console.log(email)
-      const user = await userModel.findOne({ email: email });
-      if (!user) {
-        logger.warn(`usuario no encontrado`);
-        return null;
-      }
-      user.role = role;
-      // iterar sobre el objeto data
-      const nameFields = ["identificacion", "domicilio", "estado-cuenta"];
+        const user = await userModel.findById(userId);
+        
+        if (!user) {
+            logger.warn(`Usuario no encontrado`);
+            return null;
+        }
 
-      for (let i = 0; i < nameFields.length; i++) {
-        const path= data[nameFields[i]][0].path
-        const document={name:nameFields[i],reference:path}
-        user.documents.push(document)
-       
-      }
+        const nameFields = ["identificacion", "domicilio", "estado-cuenta"];
 
-      await user.save();
-      logger.debug(`rol actualizado`);
-      return user;
+        for (let i = 0; i < nameFields.length; i++) {
+            const fieldName = nameFields[i];
+            const path = data[fieldName][0].path;
+            
+            // Verificar si el usuario ya tiene el documento cargado
+            const existingDocument = user.documents.find(doc => doc.name === fieldName);
+
+            if (existingDocument) {
+                logger.warn(`El documento ${fieldName} ya existe.`);
+                /////////////************* probar funcionalidad */
+            } else {
+                // Si no tiene el documento cargado, lo añadimos al array documents.
+                const document = { name: fieldName, reference: path };
+                user.documents.push(document);
+            }
+        }
+
+        await user.save();
+        logger.debug(`Archivos cargados`);
+        return user;
     } catch (error) {
-      logger.error("error en la base de datos", error);
+        logger.error("Error en la base de datos", error);
+        // Puedes decidir si quieres lanzar una excepción aquí o manejar el error de otra manera.
     }
-  };
+};
+
 
   validateDocuments = async (userId) => {
     try {
@@ -59,3 +70,15 @@ export default class UserMongo {
     }
   };
 }
+// postDocuments= async(userId )=>{
+//   try {
+    
+//     const user= await userModel.findById(userId);
+
+
+
+//   } catch (error) {
+//     logger.error("ha ocurrido un error en la db al realizar la consulta");
+//     throw error;
+//   }
+// }
