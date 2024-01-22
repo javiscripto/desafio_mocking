@@ -56,7 +56,6 @@ export default class UserMongo {
     }
 };
 
-
   validateDocuments = async (userId) => {
     try {
       const user = await userModel.findById(userId);
@@ -69,16 +68,20 @@ export default class UserMongo {
       throw error;
     }
   };
+
+  uploadPhotoPath= async(userId, path)=>{
+    try {
+      const user= await userModel.findById(userId);
+      
+      user.profilePhoto=path;
+
+      logger.info("foto actualizada");
+      user.save();
+      return user;
+
+    } catch (error) {
+      logger.error("ha ocurrido un error en la db al realizar la consulta");
+      throw error;
+    }
+  }
 }
-// postDocuments= async(userId )=>{
-//   try {
-    
-//     const user= await userModel.findById(userId);
-
-
-
-//   } catch (error) {
-//     logger.error("ha ocurrido un error en la db al realizar la consulta");
-//     throw error;
-//   }
-// }

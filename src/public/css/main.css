@@ -15,7 +15,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-color: cadetblue;
+    background-color: rgba(82, 111, 112, 0.064);
     font-size: small;
 }
 .profile_photo svg{

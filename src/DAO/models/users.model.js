@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
             reference:{type: String}
         }
     ],
+    profilePhoto:{type:String},
     last_Conection:{type:Date}
 });
 

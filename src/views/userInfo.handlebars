@@ -8,7 +8,7 @@
     <p><strong>Email:</strong> {{user.email}}</p>
     <p><strong>Rol:</strong> {{user.role}}</p>
     
-    <form id="photoForm" action="" method="post">
+    <form id="photoForm" action="/api/users/{{user._id}}/profile" method="post" enctype="multipart/form-data">
         <label for="profilePhoto">subir una foto</label>
         <input type="file" name="profilePhoto">
         <button type="submit">subir</button>
@@ -19,7 +19,9 @@
     
   <div class="profile_photo">
    
-    <svg
+   <img src={{user.profilePhoto}} alt="foto de usuario">
+
+    {{!-- <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
@@ -33,14 +35,7 @@
       <path
         d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
       />
-    </svg>
-
-    <div class="uploadPhoto">
-        <form action="#" method="post">
-            <input type="file" name="profilePhoto" id="">
-            <button type="submit">subir</button>
-        </form>
-    </div>
+    </svg> --}}
 
 
   </div>
@@ -49,22 +44,3 @@
 
 <a href="/api/users/{{user._id}}/documents">subir documentos</a>
 
-<script>
-  const currentRole = "{{user.role}}"; const userEmail = "{{user.email}}"; let
-  newUserRole; const userRoleForm = document.getElementById("user-role-form");
-  userRoleForm.addEventListener("submit", async (e) => { e.preventDefault();
-  const identificacionFile = document.getElementById("identificacion").files[0];
-  const domicilioFile = document.getElementById("domicilio").files[0]; const
-  estadoCuentaFile = document.getElementById("estado-cuenta").files[0]; if
-  (identificacionFile && domicilioFile && estadoCuentaFile) { currentRole ==
-  "user" ? (newUserRole = "premium") : (newUserRole = "user"); const formData =
-  new FormData(); formData.append("role", newUserRole); formData.append("email",
-  userEmail); formData.append("identificacion", identificacionFile);
-  formData.append("domicilio", domicilioFile); formData.append("estado-cuenta",
-  estadoCuentaFile); try { const response = await
-  fetch('/api/sessions/updateRole', { method: 'PUT', body: formData, }); if
-  (response.ok) { alert("rol actualizado"); window.location.reload(); } else {
-  console.error('Error al actualizar el usuario'); } } catch (error) {
-  console.error('Error en la solicitud fetch:', error); } } else { alert(" todos
-  los archivos son requeridos"); } });
-</script>

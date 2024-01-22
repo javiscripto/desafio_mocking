@@ -1,3 +1,4 @@
+import { logger } from "../../utils/logger.js";
 import UserMongo from "../DAO/classes/userClass.js";
 const userService= new UserMongo()
 
@@ -64,3 +65,16 @@ export const uploadDocuments = async (req, res) => {
         console.error("error en la solicitud: ", error)
     }
 };
+export const uploadPhoto = async(req, res)=>{
+    try {
+        const uid= req.params.uid;
+        const data = req.file
+
+        const result = await userService.uploadPhotoPath(uid,data.path)
+     
+        res.status(200).json({message:"foto de perfil actualizada", payload: result})
+    } catch (error) {
+        res.status(500).send({ message: "Error interno del servidor" });
+        console.error("error en la solicitud: ", error)
+    }
+}
