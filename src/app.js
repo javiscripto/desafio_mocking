@@ -7,6 +7,9 @@ import passport from "passport";
 import { addLoggerMiddleware , logger} from "../utils/logger.js";
 import errorHandler from "./middlewares/index.js"
 import initializePassport from "./config/passport.config.js";
+
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 initializePassport()
 
 
@@ -40,7 +43,23 @@ app.use(
   })
 );
 
+//set swagger
+const specs = swaggerJSDoc({
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentación basica del ecomerce",
+      description: "incluye la informacion sobre los modelos de la base de datos, los códigos de respuesta del servidor y los params necesarios para realizar las busquedas",
+    },
+  },
+  apis: [
+    path.join(__dirname, "docs", "productsDoc", "products.yaml"),
+    path.join(__dirname, "docs", "cartsDoc", "carts.yaml"),
+  ],
+});
+
 //middlewares
+app.use(`/apidocs`, swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use(json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
