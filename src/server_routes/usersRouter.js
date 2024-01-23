@@ -1,27 +1,9 @@
 import { Router } from "express";
 import { activeSession } from "../../utils.js";
-import multer from "multer";
+import { createMulterMiddleware } from "../middlewares/multerMiddleware.js";
 import { getUserInfo , getForm, uploadDocuments, uploadPhoto } from "../server_controlers/usersControler.js";
-import { create } from "express-handlebars";
 
 
-//set multer
-const getDestination = (routePart) => (req, file, cb) => {
-  const destination = `files/${routePart}/`;
-  cb(null, destination);
-};
-
-
-const createMulterMiddleware = (routePart) => {
-  const storage = multer.diskStorage({
-      destination: getDestination(routePart),
-      filename: (req, file, cb) => {
-          cb(null, file.fieldname + '-' + file.originalname);
-      }
-  });
-
-  return multer({ storage: storage });
-};
 
 
 //middleware multer
@@ -31,12 +13,12 @@ const profileUpload= createMulterMiddleware("profiles");
 
 
 const router= Router();
-//update role
+//obtener informacion del usuario
 router.get("/:uid", activeSession, getUserInfo)
 
 
 
-router.get("/premium/:uid", activeSession)// entrega el fo
+//actualizar role de usuario en DB
 router.put("/premium/:uid",activeSession );
 
 //upload documents
