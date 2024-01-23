@@ -27,14 +27,15 @@ export const getUserInfo = (req, res) => {
 export const PUTuserRole = async(req, res)=>{
     try {
         const uid= req.params.uid;
-
-        const result= await userService.validateDocuments(uid)
+        const newUserRole= req.body.role;
+        
+        const result= await userService.updateRole(uid,newUserRole)
 
         if(result){
            return res.status(200).send("el rol del usuario ha sido actualizado");
         };
-        res.send("faltan documentos para actualizar el rol")
-
+        res.status(400).send("faltan documentos para actualizar el rol")
+       
     } catch (error) {
         res.status(500).send({message:"error interno del servidor"})
     }

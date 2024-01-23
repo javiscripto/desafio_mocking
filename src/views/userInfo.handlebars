@@ -6,11 +6,13 @@
   <div>
     <p><strong>Nombre:</strong> {{user.first_name}} {{user.last_name}}</p>
     <p><strong>Email:</strong> {{user.email}}</p>
-    <p><strong>Rol:</strong> {{user.role}}</p>
-    
+    <p ><strong>Rol:</strong> </p> 
+    <p id="role">{{user.role}}</p>
+    <p><strong>id de usuario:</strong></p>
+    <p id="userId">{{user._id}}</p>
     <form id="photoForm" action="/api/users/{{user._id}}/profile" method="post" enctype="multipart/form-data">
         <label for="profilePhoto">subir una foto</label>
-        <input type="file" name="profilePhoto">
+        <input type="file" name="profilePhoto" id="profilePhoto">
         <button type="submit">subir</button>
     </form>
 
@@ -44,3 +46,9 @@
 
 <a href="/api/users/{{user._id}}/documents">subir documentos</a>
 
+<form action="" id="updateRole">
+  <button type="submit">actualizar rol</button>
+</form>
+
+<script src="/js/main.js">
+</script>

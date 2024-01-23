@@ -56,13 +56,27 @@ export default class UserMongo {
     }
 };
 
-  validateDocuments = async (userId) => {
+  updateRole = async (userId, newUserRole) => {
     try {
+
+      
       const user = await userModel.findById(userId);
+      if(user.role="premium"){
+        user.role= newUserRole;
+      }else{
+        const requiredDocuments = ["identificacion", "domicilio", "estado-cuenta"];
 
-      if (!user || user.documents.length !== 3) return false;
-
-      return true;
+         if (!user || user.documents.length !== 3){
+          logger.warn("el usuario no existe")
+          return false;
+         } 
+        
+      }
+     user.role=newUserRole;
+     user.save();
+     logger.info("rol actualizado");
+     
+     return user;
     } catch (error) {
       logger.error("ha ocurrido un error en la db al realizar la consulta");
       throw error;

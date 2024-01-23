@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { activeSession } from "../../utils.js";
 import { createMulterMiddleware } from "../middlewares/multerMiddleware.js";
-import { getUserInfo , getForm, uploadDocuments, uploadPhoto } from "../server_controlers/usersControler.js";
+import { getUserInfo , getForm, uploadDocuments, uploadPhoto, PUTuserRole } from "../server_controlers/usersControler.js";
 
 
 
@@ -19,7 +19,7 @@ router.get("/:uid", activeSession, getUserInfo)
 
 
 //actualizar role de usuario en DB
-router.put("/premium/:uid",activeSession );
+router.put("/premium/:uid",activeSession, PUTuserRole );
 
 //upload documents
 router.get("/:uid/documents", activeSession, getForm)//
