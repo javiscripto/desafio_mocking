@@ -2,6 +2,8 @@ import { logger } from "../../utils/logger.js";
 import ProductsMOngo from "../DAO/classes/productsClass.js";
 import productModel from "../DAO/models/product.model.js";
 
+import { createMulterMiddleware } from "../middlewares/multerMiddleware.js";
+
 const productService = new ProductsMOngo();
 
 export const getAll = async (req, res) => {
@@ -55,6 +57,10 @@ export const getById = async (req, res) => {
   }
 };
 
+
+
+
+
 export const createProduct = async (req, res) => {
   try {
     
@@ -76,7 +82,12 @@ export const createProduct = async (req, res) => {
       }else{
         ownerId="idDelOwner"
       };
-      const newProduct = { ...product, owner: ownerId };
+
+      
+      //imagen cargada 
+      console.log(req.file)
+
+      const newProduct = { ...product, owner: ownerId  };
       const createdProduct = await productService.createProduct(newProduct);
       res.status(200).json(createdProduct);
   } catch (error) {

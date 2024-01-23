@@ -5,6 +5,7 @@ import authorize from "../config/authorizeMiddleware.js";
 import passport from "passport";
 import initializePassport from "../config/passport.config.js";
 import userModel from "../DAO/models/users.model.js";
+import { createMulterMiddleware } from "../middlewares/multerMiddleware.js";
 
 
 
@@ -38,8 +39,9 @@ router.get("/:pid",getById);
 //////////////////////////// admin////////////////////////
 //create product
 //utiliza la ruta raiz para agregar productos.
+const uploadImg= createMulterMiddleware("products");
 
-router.post("/",adminAuthorization,createProduct);
+router.post("/",adminAuthorization, uploadImg.single("image") ,createProduct );
 
 //update Porduct
 router.put("/:pid",adminAuthorization, updateProduct);

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h3>form new product</h3>
-    <form action="/api/products" method="post">
+    <form action="/api/products" method="post" enctype="multipart/form-data" >
         <label for="title">title</label>
         <input type="text" name="title" id="titleProduct" required>
 
@@ -31,6 +31,11 @@
 
         <label for="category">category</label>
         <input type="text" name="cat" id="categoryProduct" required>
+
+        <label for="image">Upload Image</label>
+        <input type="file" name="image" id="image" accept="image/*" required>
+
+
         <button type="reset">reset</button>
         <button type="submit">agregar producto</button>
     </form>

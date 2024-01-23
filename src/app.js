@@ -51,7 +51,7 @@ app.use(errorHandler);
 
 //set public folder
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static("files")
+
 //import routes
 import productRoute from "./server_routes/products.router.js";
 import cartRoute from "./server_routes/carts.router.js";
