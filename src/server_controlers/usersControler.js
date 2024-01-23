@@ -32,8 +32,12 @@ export const PUTuserRole = async(req, res)=>{
         const result= await userService.updateRole(uid,newUserRole)
 
         if(result){
-           return res.status(200).send("el rol del usuario ha sido actualizado");
+           //updateRole devuelve al usuario actualizado una vez realizada la validacion. 
+        //registro del usuario actualizado en la sesion
+        req.session.user=result;
+        return res.status(200).send("el rol del usuario ha sido actualizado");
         };
+        
         res.status(400).send("faltan documentos para actualizar el rol")
        
     } catch (error) {

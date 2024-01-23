@@ -56,32 +56,32 @@ export default class UserMongo {
     }
 };
 
-  updateRole = async (userId, newUserRole) => {
-    try {
-
-      
+updateRole = async (userId, newUserRole) => {
+  try {
       const user = await userModel.findById(userId);
-      if(user.role="premium"){
-        user.role= newUserRole;
-      }else{
-        const requiredDocuments = ["identificacion", "domicilio", "estado-cuenta"];
 
-         if (!user || user.documents.length !== 3){
-          logger.warn("el usuario no existe")
-          return false;
-         } 
-        
+      if (user.role === "premium") {
+          user.role = newUserRole;
+      } else {
+          const requiredDocuments = ["identificacion", "domicilio", "estado-cuenta"];
+
+          if (user.documents.length !== 3) {
+              logger.warn("el usuario no existe o faltan documentos ")
+              return false;  
+          }
       }
-     user.role=newUserRole;
-     user.save();
-     logger.info("rol actualizado");
-     
-     return user;
-    } catch (error) {
+
+      user.role = newUserRole;
+      user.save();
+      logger.info("rol actualizado");
+
+      return user;
+  } catch (error) {
       logger.error("ha ocurrido un error en la db al realizar la consulta");
       throw error;
-    }
-  };
+  }
+};
+
 
   uploadPhotoPath= async(userId, path)=>{
     try {

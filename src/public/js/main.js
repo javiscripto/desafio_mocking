@@ -21,9 +21,16 @@ const updateForm= document.getElementById("updateRole").addEventListener("submit
     })
     .then(response=>{
         if(response.ok){
-            alert("rol actualizado")
+            alert("rol actualizado");
+            location.reload()
+        }else if(response.status===400){
+            alert("faltan documentos para actualizar el usuario")
         }
     })
+    .catch(error => {
+        console.error("Error en la solicitud:", error);
+        alert("Error en la solicitud");
+    });
 
 
 })
